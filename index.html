@@ -439,24 +439,30 @@
             const body = document.getElementById('modalBody');
 
             if (perfilActual.tipo === 'pdf') {
-                // Generamos la URL absoluta del archivo para que el visor externo lo encuentre
-                const urlBase = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+                // 1. Construimos la URL absoluta que GitHub le asignó a su archivo
+                // Esto es necesario para que el visor de Google pueda "leer" el PDF
+                const urlBase = window.location.href.split('index.html')[0].split('?')[0];
                 const urlPdfAbsoluta = urlBase + perfilActual.archivo;
                 
-                // Usamos el visor de Google que trae LUPA de búsqueda integrada para móviles
+                // 2. Usamos el visor oficial de Google que permite búsqueda interna
                 const visorGoogle = "https://docs.google.com/viewer?url=" + encodeURIComponent(urlPdfAbsoluta) + "&embedded=true";
 
-                // En móviles y tablets, forzamos este visor con buscador
+                // 3. Detectamos si es móvil o tablet
                 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || (window.innerWidth <= 1024);
                 
                 if (isMobile) {
-                    body.innerHTML = `<iframe src="${visorGoogle}" style="width:100%; height:100%; border:none;"></iframe>`;
+                    // En Tablet/Celular forzamos que se cargue DENTRO del iframe de Google
+                    // Esto evita que se abra una pestaña nueva
+                    body.innerHTML = `
+                        <div style="width:100%; height:100%; overflow:hidden;">
+                            <iframe src="${visorGoogle}" style="width:100%; height:100%; border:none;" allow="fullscreen"></iframe>
+                        </div>`;
                 } else {
-                    // En PC mantenemos el visor nativo que ya funcionaba
-                    body.innerHTML = `<iframe src="${perfilActual.archivo}#toolbar=0" style="width:100%; height:100%;"></iframe>`;
+                    // En PC dejamos el visor rápido original
+                    body.innerHTML = `<iframe src="${perfilActual.archivo}#toolbar=1" style="width:100%; height:100%;"></iframe>`;
                 }
             } else {
-                // Para documentos web (Valencia/Espriella)
+                // Mantenemos el formato para los planes de Valencia y Espriella (Web)
                 body.innerHTML = `<div class="texto-web">${perfilActual.archivo}</div>`;
             }
             document.getElementById('modalPlan').classList.add('active');
