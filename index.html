@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plataforma de Análisis Estratégico 2026 - Master Edition</title>
-    <style>
+   /* Estilo para el Botón de PDF en Móvil */
+.btn-mobile-pdf { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: #f1f5f9; padding: 20px; text-align: center; }
+.btn-link-pdf { background: #2563eb; color: white; padding: 20px 40px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 20px; box-shadow: 0 10px 20px rgba(37,99,235,0.3); }
+      <style>
         :root {
             --bg-color: #f1f5f9;
             --card-bg: #ffffff;
@@ -428,13 +431,34 @@
         });
 
         let perfilActual = null;
-        function abrirDocumento(id) {
-            perfilActual = perfiles.find(x => x.id === id);
-            document.getElementById('modalTitle').innerText = "Doctrina: " + perfilActual.nombre;
-            document.getElementById('modalHeader').style.backgroundColor = perfilActual.color;
-            const body = document.getElementById('modalBody');
-            body.innerHTML = perfilActual.tipo === 'pdf' ? `<iframe id="pdfIframe" src="${perfilActual.archivo}#toolbar=0" style="height:100%; width:100%;"></iframe>` : `<div class="texto-web">${perfilActual.archivo}</div>`;
-            document.getElementById('modalPlan').classList.add('active');
+       function abrirDocumento(id) {
+    perfilActual = perfiles.find(x => x.id === id);
+    document.getElementById('modalTitle').innerText = "Doctrina: " + perfilActual.nombre;
+    document.getElementById('modalHeader').style.backgroundColor = perfilActual.color;
+    const body = document.getElementById('modalBody');
+
+    if (perfilActual.tipo === 'pdf') {
+        // Lógica de detección de dispositivos móviles/tablets
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        
+        if (isMobile) {
+            // Si es celular o tablet, muestra el botón grande
+            body.innerHTML = `
+                <div class="btn-mobile-pdf">
+                    <div style="font-size:60px; margin-bottom:20px;">📄</div>
+                    <h3 style="color:#1e293b;">Visualización en Dispositivo Móvil</h3>
+                    <p style="color:#64748b; margin-bottom:30px;">Para garantizar la lectura correcta, abra el documento en pantalla completa:</p>
+                    <a href="${perfilActual.archivo}" target="_blank" class="btn-link-pdf" style="background:${perfilActual.color}">ABRIR PDF ORIGINAL</a>
+                </div>`;
+        } else {
+            // Si es PC, muestra el visor normal
+            body.innerHTML = `<iframe src="${perfilActual.archivo}#toolbar=0" style="width:100%; height:100%;"></iframe>`;
+        }
+    } else {
+        // Para los documentos web (Paloma y Abelardo), mantiene el texto con scroll
+        body.innerHTML = `<div class="texto-web">${perfilActual.archivo}</div>`;
+    }
+    document.getElementById('modalPlan').classList.add('active');
         }
 
         function ejecutarBusquedaInterna() {
