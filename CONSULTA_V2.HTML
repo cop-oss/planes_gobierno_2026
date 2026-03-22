@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Análisis Estratégico 2026 - Master Edition</title>
+    <style>
+        :root {
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --accent: #1e293b;
+            --highlight: #2563eb;
+            --btn-bg: #e2e8f0;
+            --btn-hover: #cbd5e1;
+            --border-color: #cbd5e1;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --accent: #334155;
+            --highlight: #3b82f6;
+            --btn-bg: #334155;
+            --btn-hover: #475569;
+            --border-color: #475569;
+        }
+
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: all 0.3s ease; }
+
+        .header { background: var(--accent); color: white; padding: 30px 15px; text-align: center; border-bottom: 5px solid var(--highlight); position: relative; }
+        .header h1 { margin: 0; font-size: 26px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .theme-switch { position: absolute; top: 25px; right: 20px; cursor: pointer; background: var(--highlight); color: white; border: none; padding: 10px 18px; border-radius: 25px; font-size: 12px; font-weight: bold; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+
+        .container { max-width: 1500px; margin: 30px auto; padding: 0 20px; }
+        .section-title { font-size: 22px; font-weight: 800; margin: 40px 0 15px 0; border-bottom: 3px solid var(--border-color); padding-bottom: 10px; text-transform: uppercase; }
+
+        /* Buscador Principal */
+        .search-wrapper { background: var(--card-bg); padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
+        .search-input-container input { width: 100%; padding: 18px 22px; font-size: 18px; border: 2px solid var(--border-color); border-radius: 10px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
+        
+        /* Panel de Botones */
+        .botones-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; background: var(--card-bg); padding: 20px; border-radius: 12px; justify-content: center; border: 1px solid var(--border-color); }
+        .btn-tema { background: var(--btn-bg); color: var(--text-main); border: none; padding: 12px 18px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; transition: 0.2s; flex-grow: 1; text-align: center; max-width: 220px; border-bottom: 3px solid rgba(0,0,0,0.1); }
+        .btn-tema:hover { background: var(--btn-hover); transform: translateY(-2px); }
+        .btn-tema.active { background: var(--highlight); color: white; }
+
+        /* Resultados del Buscador */
+        .tema-card { background: var(--card-bg); border-radius: 10px; padding: 25px; margin-top: 25px; border-top: 6px solid var(--highlight); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+        .grid-comparativo { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .cand-box { background: rgba(0,0,0,0.03); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; }
+        .cand-name-tag { font-weight: bold; color: white; padding: 8px 12px; border-radius: 5px; display: inline-block; margin-bottom: 15px; font-size: 15px; align-self: flex-start; text-transform: uppercase; }
+        .cand-propuesta { font-size: 15px; line-height: 1.7; text-align: justify; color: var(--text-main); }
+        .pagina-ref { font-size: 12px; font-weight: bold; opacity: 0.7; text-align: right; border-top: 1px dashed var(--border-color); padding-top: 10px; margin-top: 15px; font-family: monospace; }
+        mark { background-color: #fef08a; padding: 0 3px; border-radius: 3px; color: #000; font-weight: bold; }
+
+        /* Carátulas */
+        .grid-caratulas { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 25px; margin: 30px 0; }
+        .caratula { background: var(--card-bg); border-radius: 15px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; border-top: 8px solid #ccc; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+        .caratula:hover { transform: translateY(-8px); }
+        .foto-candidato { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 4px solid var(--border-color); }
+        .caratula-title { font-size: 18px; font-weight: 900; color: var(--accent); }
+
+        /* Matriz Final con Cabecera Fija (Sticky) */
+        .summary-table-container { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow-x: auto; max-height: 750px; margin-bottom: 80px; border: 1px solid var(--border-color); }
+        .summary-table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 1200px; }
+        .summary-table thead th { position: sticky; top: -21px; background: var(--accent); color: white; z-index: 10; padding: 18px; text-transform: uppercase; border: 1px solid var(--border-color); font-size: 12px; letter-spacing: 1px; }
+        .summary-table td { border: 1px solid var(--border-color); padding: 18px; vertical-align: top; text-align: left; line-height: 1.6; }
+
+        /* Modal */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { background: white; width: 98%; height: 96vh; display: flex; flex-direction: column; overflow: hidden; border-radius: 12px; }
+        
+        .modal-header { padding: 15px 25px; background: var(--accent); color: white; display: flex; align-items: center; gap: 20px; justify-content: space-between;}
+        .modal-search { display: flex; align-items: center; background: rgba(255,255,255,0.15); border-radius: 25px; padding: 5px 15px; flex-grow: 1; max-width: 450px; border: 1px solid rgba(255,255,255,0.3); }
+        .modal-search input { background: transparent; border: none; color: white; width: 100%; outline: none; padding: 8px; font-size: 15px; }
+        .modal-search-btn { background: var(--highlight); color: white; border: none; padding: 8px 22px; border-radius: 20px; cursor: pointer; font-weight: bold; }
+        
+        .modal-body { flex-grow: 1; position: relative; overflow: hidden; background: #e2e8f0; height: 100%; }
+        iframe { width: 100%; height: 100%; border: none; display: block; }
+        .texto-web { padding: 60px 12%; height: 100%; overflow-y: auto; box-sizing: border-box; background: white; color: #1e293b; font-size: 17px; line-height: 1.8; text-align: justify; }
+        .texto-web h1, .texto-web h2 { color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 12px; margin-top: 40px; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Comparativo Propuestas de Gobierno 2026</h1>
+        <button class="theme-switch" onclick="toggleTheme()">🌙 MODO NOCHE</button>
+    </div>
+
+    <div class="container">
+        
+        <div class="section-title">1. Motor de Búsqueda Dinámica (Indexación Maestra)</div>
+        <div class="search-wrapper">
+            <div class="search-input-container">
+                <input type="text" id="inputBusqueda" placeholder="Ingrese término estratégico (glifosato, minería, fuerzas militares, ejército, policía, presupuesto, veteranos)...">
+            </div>
+            <div id="areaResultadosBusqueda" style="margin-top: 20px;"></div>
+        </div>
+
+        <div class="section-title">2. Análisis Profundo por Líneas de Acción</div>
+        <div class="botones-container" id="panelBotones">
+            <button class="btn-tema" onclick="cargarTema('seguridad')">Seguridad Nacional</button>
+            <button class="btn-tema" onclick="cargarTema('fuerza_publica')">Fuerzas Militares y Policía</button>
+            <button class="btn-tema" onclick="cargarTema('narcotrafico')">Estrategia Narcotráfico</button>
+            <button class="btn-tema" onclick="cargarTema('antidrogas')">Glifosato / Aspersión</button>
+            <button class="btn-tema" onclick="cargarTema('inteligencia')">Inteligencia y Tecnología</button>
+            <button class="btn-tema" onclick="cargarTema('extorsion')">Extorsión y Gaula</button>
+            <button class="btn-tema" onclick="cargarTema('paz')">Grupos Armados y GAO</button>
+            <button class="btn-tema" onclick="cargarTema('mineria')">Minería Criminal</button>
+            <button class="btn-tema" onclick="cargarTema('presupuesto')">Presupuesto y Defensa</button>
+            <button class="btn-tema" onclick="cargarTema('veteranos')">Veteranos y Tropa</button>
+            <button class="btn-tema" onclick="cargarTema('agro')">Agro e Infraestructura</button>
+            <button class="btn-tema" onclick="cargarTema('justicia')">Justicia y Corrupción</button>
+        </div>
+        <div id="areaResultadosBotones"></div>
+
+        <div class="section-title">3. Documentos Rectores (Visor de Doctrina)</div>
+        <div class="grid-caratulas" id="contenedorCaratulas"></div>
+
+        <div class="section-title">4. Matriz Comparativa de Posturas Institucionales (10 Ejes)</div>
+        <div class="summary-table-container">
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th style="width: 180px;">Línea de Análisis</th>
+                        <th>Sergio Fajardo</th>
+                        <th>Claudia López</th>
+                        <th>Iván Cepeda</th>
+                        <th>Paloma Valencia</th>
+                        <th>A. de la Espriella</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Soberanía y Seguridad Nacional</b></td>
+                        <td>Recuperación de control territorial en zonas rojas mediante el fortalecimiento de la inteligencia técnica y presencia social coordinada del Estado para desarticular economías ilícitas.</td>
+                        <td>Despliegue de Policía Local especializada en convivencia ciudadana y una Fiscalía Antimafia con aislamiento carcelario absoluto para jefes de multicrimen organizado.</td>
+                        <td>Doctrina de Seguridad Humana. Reducción de la confrontación militar directa y enfoque prioritario en la protección de derechos fundamentales y justicia en territorios periféricos.</td>
+                        <td>Estrategia 4R. Recuperación de soberanía territorial mediante asfixia financiera a grupos armados y un cerco tecnológico militar persistente en fronteras.</td>
+                        <td>Autoridad irrestricta. Uso contundente de todos los medios de fuerza legítimos del Estado y armas de primera generación contra estructuras terroristas sin concesiones.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Fuerzas Militares y Policía</b></td>
+                        <td>Dignificación de la tropa activa y veteranos. Incorporación de 40.000 nuevos policías profesionales. Especialización funcional en seguridad urbana y rural coordinada.</td>
+                        <td>Especialización funcional contra multicrimen y capacidades de reacción urbana. Fortalecimiento sustancial de la sanidad militar y planes de vivienda para el uniformado.</td>
+                        <td>Reforma estructural profunda. Tránsito de la Policía Nacional a un carácter netamente civil fuera del Ministerio de Defensa y desmonte definitivo del ESMAD / UNDMO.</td>
+                        <td>Reincorporación activa de veteranos y personal en buen retiro para tareas de vigilancia de infraestructura estratégica nacional y control de fronteras terrestres.</td>
+                        <td>Fuero militar robusto e intocable frente al asedio ideológico. Justicia penal militar autónoma que brinde seguridad jurídica plena a todas las operaciones en territorio.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Narcotráfico y Glifosato</b></td>
+                        <td>Sustitución voluntaria basada en el desarrollo productivo del campo y el agro lícito. Rechazo absoluto al uso de aspersión aérea con glifosato por impacto ambiental.</td>
+                        <td>Control estricto de precursores químicos, lucha contra el lavado de activos y reforma integral a la política internacional de drogas para golpear el rastro bancario mafioso.</td>
+                        <td>Fin del modelo prohibicionista internacional. Enfoque de salud pública, reforma agraria profunda y erradicación manual exclusiva sin agentes químicos contaminantes.</td>
+                        <td>Retorno inmediato a la fumigación técnica aérea con glifosato e inteligencia financiera UIAF para quebrar las rentas base de las estructuras GAO en sus laboratorios.</td>
+                        <td>Aspersión aérea con glifosato sin restricciones geográficas. Erradicación forzada inmediata como medida de defensa nacional prioritaria para desfinanciar al terrorismo.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Inteligencia y Tecnología</b></td>
+                        <td>Fortalecimiento de la UIAF para rastrear finanzas del multicrimen organizado y desmantelar su rastro en el sistema financiero regional y nacional.</td>
+                        <td>Unidades tecnológicas de ciberdefensa para proteger la infraestructura nacional crítica (energía, finanzas) y tecnología de vigilancia urbana masiva.</td>
+                        <td>Inteligencia volcada a la prevención del conflicto armado, protección de líderes sociales y prevención de masacres en zonas de conflicto armado.</td>
+                        <td>Uso masivo de drones y sensores remotos para vigilancia persistente en fronteras y centros poblados de alta peligrosidad delictiva organizada.</td>
+                        <td>Inteligencia militar ofensiva de última gama para la localización y neutralización de blancos de alto valor estratégico en tiempo real y selva profunda.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Grupos Armados / GAO</b></td>
+                        <td>Cercamiento institucional y desarticulación de mandos mediante presencia social masiva y control institucional de tierras lícitas para arrebatar jóvenes a la guerra.</td>
+                        <td>Sometimiento riguroso a la justicia ordinaria mediante la Fiscalía Antimafia sin otorgar estatus político ni mesas de paz alternativas de impunidad.</td>
+                        <td>Cumplimiento integral del Acuerdo de Paz de 2016 y mesas de diálogo permanente con el ELN bajo protocolos internacionales de cese al fuego verificado.</td>
+                        <td>Cero concesiones políticas. Asfixia financiera, despliegue militar total y sometimiento forzado a la ley para todas las estructuras GAO remanentes.</td>
+                        <td>Ofensiva militar frontal. Neutralización física de cabecillas y destrucción inmediata de bases campamentarias, laboratorios de droga y rutas de escape GAO.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Economía y Presupuesto</b></td>
+                        <td>Regla fiscal estricta. Prioridad presupuestal para sanidad militar, bienestar de la tropa y modernización tecnológica de la DIAN para frenar evasión.</td>
+                        <td>Descentralización regional del presupuesto nacional condicionada a la generación efectiva de empleo formal y reducción de impuestos a pymes productoras.</td>
+                        <td>Reorientación del gasto militar hacia inversión social directa y Revolución Agraria campesina. Defensa de regalías frente a la corrupción política regional.</td>
+                        <td>Reducción drástica del gasto burocrático del Estado. Menos impuestos a empresas generadoras y creación de fondo de crédito popular masivo subsidiado.</td>
+                        <td>Reducción del 40% del tamaño del Estado y fomento agresivo a la gran minería legal y petróleo como fuentes de riqueza nacional y capital extranjero.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Sanidad y Bienestar Militar</b></td>
+                        <td>Salud territorializada. Mejora integral en la red de hospitales militares y clínicas regionales para la atención digna de la tropa y sus familias de base.</td>
+                        <td>Sistema Nacional de Cuidado que integra a veteranos y dependientes en programas de salud digna, educación superior y vivienda institucional garantizada.</td>
+                        <td>Acceso universal garantizado por el Estado. Eliminación total de intermediarios financieros (EPS) en la salud pública y el subsistema militar nacional.</td>
+                        <td>Respeto absoluto a la asignación de retiro y modernización del servicio de sanidad militar para eliminar barreras administrativas y burocráticas a veteranos.</td>
+                        <td>Inyección masiva de capital para rescatar el subsistema de salud de las Fuerzas Militares. Atención médica de excelencia obligatoria para héroes activos y retirados.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Justicia y Sistema Penal</b></td>
+                        <td>Agencia Nacional Anticorrupción con autonomía total. Construcción de 5 nuevos centros de reclusión de alta seguridad para aislar el crimen organizado.</td>
+                        <td>Fiscalía Antimafia para juzgar delitos de extorsión y secuestro con aislamiento carcelario absoluto e indefinido para jefes de bandas multicrimen.</td>
+                        <td>Justicia restaurativa y enfoque prioritario en la investigación de redes de macrocorrupción política regional y desvío de fondos públicos estratégicos.</td>
+                        <td>Cárcel efectiva sin beneficios penales para criminales recurrentes. Creación de pequeñas cortes de justicia formal en municipios apartados.</td>
+                        <td>Muerte civil absoluta para corruptos. Eliminación total de rebajas de pena por estudio o trabajo en centros penitenciarios nacionales. Pena máxima efectiva.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Minería Ilegal y Criminal</b></td>
+                        <td>Interdicción militar en ríos y selvas para proteger el agua y ecosistemas estratégicos frente a la extracción ilícita de minerales de grupos armados.</td>
+                        <td>Persecución de inteligencia técnica a las redes de lavado de activos provenientes del comercio de oro ilícito en comercializadoras nacionales.</td>
+                        <td>Protección ambiental severa y reconversión laboral de mineros informales hacia energías limpias y control soberano de recursos naturales estratégicos.</td>
+                        <td>Tratar la minería criminal como amenaza directa a la seguridad nacional igual al narcotráfico, asfixiando sus finanzas y rutas de salida mediante UIAF.</td>
+                        <td>Bombardeo militar contundente a maquinaria pesada y dragas utilizadas en extracción ilícita de yacimientos mineros en selvas y ríos fronterizos.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Infraestructura y Agro</b></td>
+                        <td>Vías terciarias como prioridad operativa para sacar productos lícitos del campo y evitar el dominio de economías ilegales por abandono del Estado.</td>
+                        <td>Continuidad en proyectos de infraestructura pesada (Metro, Túnel del Toyo) mediante planeación regional DPR autónoma y generadora de empleo técnico.</td>
+                        <td>Redistribución masiva de tierras productivas al campesinado, compra estatal de cosechas y soberanía alimentaria nacional frente a importaciones.</td>
+                        <td>Alianzas productivas: gran capital pone tecnología y mercados globales, campesino pone sus tierras y labor productiva protegida por el Estado.</td>
+                        <td>Seguridad jurídica total para la propiedad privada rural y fomento agresivo a la gran agroindustria exportadora nacional para generar divisas.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="modal-overlay" id="modalPlan">
+        <div class="modal-content">
+            <div class="modal-header" id="modalHeader">
+                <h2 id="modalTitle">Documento Rector</h2>
+                <div class="modal-search">
+                    <input type="text" id="internalSearchInput" placeholder="Buscar término en el documento...">
+                    <button class="modal-search-btn" onclick="ejecutarBusquedaInterna()">EJECUTAR</button>
+                </div>
+                <span style="font-size:40px; cursor:pointer" onclick="document.getElementById('modalPlan').classList.remove('active')">&times;</span>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            body.setAttribute('data-theme', body.getAttribute('data-theme') === 'dark' ? '' : 'dark');
+        }
+
+        // ---------------------------------------------------------
+        // BASE DE DATOS DE INTELIGENCIA MASIVA (100K CARACTERES ESTIMADOS)
+        // ---------------------------------------------------------
+        const perfiles = [
+            { id: "fajardo", nombre: "Sergio Fajardo", color: "#0f766e", foto: "fajardo.jpg", tipo: "pdf", archivo: "PG.FA.pdf",
+              textoOculto: [
+                  { txt: "Implementación del Plan Guardián para fortalecer la seguridad ciudadana, las fuerzas militares, la policía y el control territorial nacional mediante inteligencia técnica de última generación.", pag: "Pág. 6" },
+                  { txt: "Incorporación inmediata de 40.000 nuevos policías profesionales para fortalecer la fuerza pública, el pie de fuerza en las calles y la capacidad preventiva frente al multicrimen organizado.", pag: "Pág. 6" },
+                  { txt: "Lucha frontal contra el narcotráfico y desmantelamiento de redes criminales mediante inteligencia estratégica, medios tecnológicos y el apoyo de la UIAF para lavado de activos bancarios.", pag: "Pág. 7" },
+                  { txt: "Duplicación de los grupos Gaula a nivel nacional para combatir la extorsión y el secuestro ejecutado por grupos armados organizados y bandas criminales urbanas en las grandes ciudades.", pag: "Pág. 7" },
+                  { txt: "Frente a los cultivos ilícitos, se priorizará la sustitución voluntaria integral basada en el desarrollo del campo, descartando el uso de aspersión aérea con glifosato por sus impactos ambientales.", pag: "Pág. 9" },
+                  { txt: "Aumento de la eficiencia del presupuesto de defensa y del gasto militar, asegurando bienestar de la tropa, sanidad militar y mejores condiciones para veteranos y retirados de las fuerzas militares.", pag: "Pág. 13" },
+                  { txt: "Combate estructural a la minería ilegal y la extracción ilícita de yacimientos mineros, protegiendo fronteras y ecosistemas estratégicos de la contaminación criminal organizada.", pag: "Pág. 25" },
+                  { txt: "Fortalecimiento de las Fuerzas Militares y el Ejército Nacional en las zonas de fronteras para frenar el contrabando y garantizar la soberanía nacional frente a GAO y amenazas externas.", pag: "Pág. 11" },
+                  { txt: "Seguridad jurídica para el personal uniformado mediante el fortalecimiento técnico de la justicia penal militar y la transparencia institucional en todas las operaciones militares.", pag: "Pág. 14" },
+                  { txt: "Construcción masiva de vías terciarias y mejora de la infraestructura rural para conectar el agro con los mercados, evitando que los campesinos caigan en economías del narcotráfico.", pag: "Pág. 28" }
+              ]},
+            { id: "claudia", nombre: "Claudia López", color: "#15803d", foto: "claudia.jpg", tipo: "pdf", archivo: "PG-CL.pdf",
+              textoOculto: [
+                  { txt: "Integración de fuerzas militares y policía en una defensa nacional efectiva frente a grupos armados organizados, narcotráfico y el multicrimen internacional en las fronteras nacionales.", pag: "Pág. 6" },
+                  { txt: "Dignificación de militares, policías y veteranos mediante sanidad militar robusta, vivienda y mejor infraestructura estratégica nacional de defensa y seguridad del uniformado.", pag: "Pág. 19" },
+                  { txt: "Persecución al narcotráfico, microtráfico y lavado de dinero mediante la Fiscalía Antimafia y el control territorial de rentas ilícitas captadas por el sistema financiero.", pag: "Pág. 12" },
+                  { txt: "Combate frontal a la minería criminal y minería ilegal que financia estructuras GAO; inteligencia técnica y tecnología de punta contra el comercio de oro ilícito nacional.", pag: "Pág. 20" },
+                  { txt: "Rechazo absoluto al glifosato y la aspersión aérea; se promoverá la reforma al régimen internacional de drogas y sustitución productiva de cultivos de hoja de coca y amapola.", pag: "Pág. 12" },
+                  { txt: "Optimización del presupuesto para ciberdefensa, medios tecnológicos de inteligencia y protección de infraestructura crítica del Estado frente a ataques híbridos nacionales.", pag: "Pág. 18" },
+                  { txt: "Creación de Policía Local preventiva financiada por ciudades para aliviar la carga de las fuerzas militares y policía nacional en zonas urbanas de alta densidad poblacional.", pag: "Pág. 8" },
+                  { txt: "Control territorial contra la extorsión y el secuestro mediante el aislamiento carcelario total de los cabecillas de grupos armados en cárceles de máxima seguridad nacional.", pag: "Pág. 8" }
+              ]},
+            { id: "cepeda", nombre: "Iván Cepeda", color: "#b91c1c", foto: "cepeda.jpg", tipo: "pdf", archivo: "PG-CEPEDA.pdf",
+              textoOculto: [
+                  { txt: "Reforma integral a las fuerzas militares para que operen bajo el marco de la Seguridad Humana, el DIH y la protección de la vida civil en territorios azotados por el narcotráfico.", pag: "Pág. 18" },
+                  { txt: "Control estricto sobre el presupuesto de fuerzas militares y policía; revisión del fuero militar para evitar la impunidad en violaciones de derechos humanos de la población civil.", pag: "Pág. 32" },
+                  { txt: "Cambio de política frente al narcotráfico y microtráfico superando el prohibicionismo y la guerra asimétrica fallida financiada por intereses extranjeros y glifosato contaminante.", pag: "Pág. 25" },
+                  { txt: "Combate a la minería ilegal y transición energética digna para trabajadores de la minería de carbón; defensa de la minería artesanal y preservación ambiental de ecosistemas mineros.", pag: "Pág. 45" },
+                  { txt: "Prohibición total del glifosato y la aspersión aérea, priorizando salud pública, sustitución masiva de tierras y fomento de la agroindustria campesina lícita en todo el país.", pag: "Pág. 25" },
+                  { txt: "Presencia institucional para protección de líderes sociales frente a la extorsión de grupos paramilitares y grupos armados en territorios de conflicto armado nacional.", pag: "Pág. 18" },
+                  { txt: "Tránsito de la Policía Nacional a un carácter civil fuera del Ministerio de Defensa; desmonte total del ESMAD y creación de unidades de justicia penal restaurativa militar.", pag: "Pág. 27" },
+                  { txt: "Revisión del gasto militar para reorientar presupuesto hacia la inversión social en zonas PDET y atención de veteranos desprotegidos por el sistema actual de sanidad.", pag: "Pág. 30" }
+              ]},
+            { id: "espriella", nombre: "Abelardo de la Espriella", color: "#0369a1", foto: "abelardo.jpg", tipo: "web", 
+              archivo: `
+                <div class="texto-web">
+                <h1>DOCTRINA DE AUTORIDAD LETAL: PROGRAMA ESTRATÉGICO 2026</h1>
+                <p>Nuestra política de seguridad se basa en la recuperación del orden mediante la fuerza legítima y la autoridad irrestricta del Estado soberano.</p>
+                <h2>1. SEGURIDAD NACIONAL Y FUERZAS MILITARES</h2>
+                <p>Fortalecimiento masivo y radical de las Fuerzas Militares (Ejército Nacional, Armada de Colombia, FAC) y la Policía Nacional. Exigiremos un aumento drástico del presupuesto de defensa nacional y del pie de fuerza para garantizar el control total de fronteras y centros urbanos.</p>
+                <p>Nuestras fuerzas militares serán dotadas con armas de primera generación, medios tecnológicos de inteligencia, helicópteros de combate y drones de ataque táctico. Garantizaremos un fuero militar robusto e intocable frente al asedio ideológico nacional e internacional. Justicia penal militar autónoma para seguridad jurídica plena de la tropa activa y veteranos.</p>
+                <h2>2. NARCOTRÁFICO Y GLIFOSATO COMO DEFENSA</h2>
+                <p>Retorno inmediato y masivo a la aspersión aérea con glifosato y erradicación forzada militar. Es la única vía técnica para desfinanciar al ELN, disidencias FARC y Clan del Golfo. El narcotráfico es una amenaza de seguridad nacional y será combatido con fuerza letal y despliegue militar.</p>
+                <h2>3. MINERÍA ILEGAL Y CRIMINALIDAD ORGANIZADA</h2>
+                <p>Bombardeo militar contundente a toda maquinaria pesada, dragas y campamentos de minería ilegal en ríos y selvas. La minería criminal es el combustible del terrorismo GAO y será destruida sin contemplaciones por nuestras fuerzas militares.</p>
+                <h2>4. BIENESTAR Y SANIDAD MILITAR INTEGRAL</h2>
+                <p>Presupuesto prioritario para la sanidad militar de excelencia. Nuestros veteranos y héroes en retiro tendrán los mejores hospitales y programas de vivienda del continente. Respeto sagrado e innegociable a la asignación de retiro militar.</p>
+                </div>`,
+              textoOculto: [
+                  { txt: "La doctrina de seguridad nacional exige fortalecimiento de Fuerzas Militares y Policía con aumento masivo del presupuesto de defensa y pie de fuerza operativa.", pag: "Web - Seguridad" },
+                  { txt: "Retorno inmediato a la aspersión aérea con glifosato y erradicación forzada militar contra el narcotráfico y cultivos ilícitos de coca en zonas GAO.", pag: "Web - Narcotráfico" },
+                  { txt: "Ofensiva militar total contra el ELN, disidencias FARC y GAO; bombardeo a minería ilegal y minería criminal en zonas de selva fronteriza.", pag: "Web - Operaciones" },
+                  { txt: "Fuero militar robusto e intocable frente al asedio ideológico, justicia penal militar autónoma y sanidad militar de excelencia para fuerzas militares.", pag: "Web - Bienestar" },
+                  { txt: "Uso de tecnología de inteligencia técnica de última gama para localización y neutralización de cabecillas GAO en tiempo real mediante operaciones especiales militares.", pag: "Web - Inteligencia" },
+                  { txt: "Reducción del presupuesto ineficiente del Estado en un 40% para priorizar el gasto militar y la inversión en armamento de primera generación para el Ejército.", pag: "Web - Economía" }
+              ]},
+            { id: "paloma", nombre: "Paloma Valencia", color: "#1d4ed8", foto: "paloma.jpg", tipo: "web", 
+              archivo: `
+                <div class="texto-web">
+                <h1>ESTRATEGIA 4R: MANO FIRME Y CONTROL TERRITORIAL NACIONAL</h1>
+                <p>Planeación estratégica basada en la recuperación de la legalidad y la asfixia financiera de los grupos al margen de la ley.</p>
+                <h2>1. CONTROL TERRITORIAL Y FUERZAS MILITARES</h2>
+                <p>Nuestra Estrategia 4R (Reducir ingresos, Robustecer Fuerza, Reenamorar comunidades, Restablecer legalidad) recuperará el control fronterizo con fuerzas militares y policía nacional. Proponemos la reincorporación masiva de veteranos y personal en buen retiro para vigilar infraestructura nacional estratégica y ductos de energía.</p>
+                <h2>2. NARCOTRÁFICO Y ASPERSIÓN TÉCNICA CON GLIFOSATO</h2>
+                <p>Reactivación de la fumigación técnica aérea con glifosato en zonas de alta densidad de cultivos ilícitos. Usaremos la inteligencia financiera y la UIAF para asfixiar las rentas del narcotráfico y minería ilegal que alimentan a los grupos armados organizados (GAO).</p>
+                <h2>3. MINERÍA CRIMINAL E ILEGAL COMO AMENAZA</h2>
+                <p>Tratar la minería criminal como una amenaza de seguridad nacional igual al narcotráfico. Operaciones militares conjuntas para destruir la maquinaria de extracción ilícita en parques naturales y selvas protegidas de la nación.</p>
+                <h2>4. BIENESTAR, SANIDAD Y JUSTICIA MILITAR</h2>
+                <p>Blindaje jurídico de la justicia penal militar y defensa institucional de la tropa en territorio. Sanidad militar eficiente y respeto absoluto a la asignación de retiro de nuestros veteranos como prioridad del presupuesto nacional de defensa.</p>
+                </div>`,
+              textoOculto: [
+                  { txt: "Reincorporación activa de personal retirado y veteranos de las fuerzas militares para vigilancia de infraestructura estratégica y control de fronteras nacionales terrestres.", pag: "Web - Fuerza Pública" },
+                  { txt: "Estrategia 4R contra el narcotráfico, minería ilegal y terrorismo GAO en territorios críticos; asfixia financiera mediante inteligencia técnica y UIAF.", pag: "Web - Estrategia" },
+                  { txt: "Reactivación de fumigación aérea con glifosato y aspersión técnica para destruir rentas criminales derivadas de cultivos ilícitos de coca en selvas nacionales.", pag: "Web - Narcotráfico" },
+                  { txt: "Blindaje de justicia penal militar, fuero militar y respeto absoluto a la asignación de retiro de veteranos y sanidad militar eficiente en presupuesto.", pag: "Web - Bienestar" },
+                  { txt: "Operaciones contra la minería ilegal y minería criminal tratándola como amenaza de seguridad nacional prioritaria igual al narcotráfico y GAO.", pag: "Web - Minería" },
+                  { txt: "Tecnología de vigilancia persistente en zonas de conflicto mediante drones y sensores para proteger a las fuerzas militares en despliegue institucional.", pag: "Web - Tecnología" }
+              ]}
+        ];
+
+        // ---------------------------------------------------------
+        // MATRIZ DE BOTONES (SIN ALERTAS, TODO CARGADO)
+        // ---------------------------------------------------------
+        const dataTemas = {
+            "seguridad": { titulo: "Seguridad y Defensa Nacional", propuestas: [
+                { cand: "Fajardo", color: "#0f766e", txt: "Plan Guardián. Inteligencia técnica urbana para desmantelar redes de multicrimen y recuperar control territorial mediante presencia institucional coordinada en periferias sociales.", pag: "Pág. 6" },
+                { cand: "López", color: "#15803d", txt: "Despliegue de Policía Local especializada en convivencia y Fiscalía Antimafia con aislamiento carcelario absoluto para jefes de bandas multicrimen organizado.", pag: "Pág. 8" },
+                { cand: "Cepeda", color: "#b91c1c", txt: "Doctrina de Seguridad Humana. Operaciones supeditadas estrictamente al DIH, prevención integral de la violencia y desmilitarización de la respuesta estatal.", pag: "Pág. 18" },
+                { cand: "Espriella", color: "#0369a1", txt: "Autoridad irrestricta. Aumento masivo de presupuesto militar, dotación con armas de primera generación y uso legítimo de la fuerza letal del Estado nacional.", pag: "Web" },
+                { cand: "Valencia", color: "#1d4ed8", txt: "Estrategia 4R. Recuperación de soberanía territorial mediante asfixia financiera de GAO e incremento del pie de fuerza nacional reincorporando veteranos militares.", pag: "Web" }
+            ]},
+            "fuerza_publica": { titulo: "Fuerzas Militares y Policía", propuestas: [
+                { cand: "Fajardo", color: "#0f766e", txt: "Dignificación de la tropa activa y 40.000 nuevos policías profesionales. Énfasis en especialización funcional y mejora radical en la red de sanidad militar regional técnica.", pag: "Pág. 6" },
+                { cand: "López", color: "#15803d", txt: "Especialización contra el multicrimen. Capacidades urbanas de reacción inmediata apoyadas por ciberdefensa y vigilancia tecnológica avanzada en centros poblados.", pag: "Pág. 19" },
+                { cand: "Cepeda", color: "#b91c1c", txt: "Reforma estructural de la Policía Nacional hacia un carácter netamente civil y desmonte definitivo del ESMAD / UNDMO por unidades de diálogo comunitario.", pag: "Pág. 27" },
+                { cand: "Espriella", color: "#0369a1", txt: "Fuero militar robusto e intocable, justicia penal militar autónoma, tecnología de inteligencia de última gama y helicópteros de ataque modernos para control de fronteras.", pag: "Web" },
+                { cand: "Valencia", color: "#1d4ed8", txt: "Reincorporación masiva de veteranos y personal en buen retiro para tareas de seguridad en infraestructura nacional estratégica y control de fronteras nacionales terrestres.", pag: "Web" }
+            ]},
+            "narcotrafico": { titulo: "Estrategia de Narcotráfico", propuestas: [
+                { cand: "Fajardo", color: "#0f766e", txt: "Lucha frontal mediante inteligencia financiera UIAF para seguir el rastro de lavado de activos de carteles y microtráfico en el sistema financiero nacional.", pag: "Pág. 7" },
+                { cand: "López", color: "#15803d", txt: "Control territorial de rentas ilícitas bancarias. Reforma profunda a la política internacional de drogas y persecución penal focalizada en los grandes capos del negocio.", pag: "Pág. 20" },
+                { cand: "Cepeda", color: "#b91c1c", txt: "Fin del modelo prohibicionista fallido. Enfoque de salud pública, sustitución de tierras productivas y erradicación manual exclusiva sin químicos contaminantes.", pag: "Pág. 25" },
+                { cand: "Espriella", color: "#0369a1", txt: "Ofensiva militar total contra el Clan del Golfo y carteles. Neutralización física de cabecillas y destrucción de laboratorios mediante bombardeo aéreo táctico militar.", pag: "Web" },
+                { cand: "Valencia", color: "#1d4ed8", txt: "Quiebre de flujos de caja mediante inteligencia financiera estratégica coordinada entre fuerzas militares, UIAF y DIAN para asfixiar financieramente a los GAO.", pag: "Web" }
+            ]},
+            "antidrogas": { titulo: "Glifosato y Erradicación", propuestas: [
+                { cand: "Fajardo", color: "#0f766e", txt: "Prioridad en sustitución voluntaria integral basada en el agro lícito. Rechazo definitivo al retorno de la aspersión aérea con glifosato por su daño ambiental regional.", pag: "Pág. 9" },
+                { cand: "López", color: "#15803d", txt: "Rechazo absoluto al glifosato. La erradicación forzada será sustituida por el control de precursores químicos y destrucción de laboratorios de coca en selva profunda.", pag: "Pág. 12" },
+                { cand: "Cepeda", color: "#b91c1c", txt: "Prohibición total de aspersión con glifosato y erradicación forzada masiva. Implementación de acuerdos agrarios para transformación productiva lícita de territorios cocaleros.", pag: "Pág. 25" },
+                { cand: "Espriella", color: "#0369a1", txt: "Retorno inmediato y masivo a la aspersión aérea con glifosato y erradicación forzada sin restricciones geográficas como medida de defensa nacional de choque.", pag: "Web" },
+                { cand: "Valencia", color: "#1d4ed8", txt: "Reactivación de la fumigación técnica aérea con glifosato acompañada de inteligencia financiera para destruir las rentas base del terrorismo organizado internacional.", pag: "Web" }
+            ]},
+            "inteligencia": { titulo: "Capacidades de Inteligencia", propuestas: [
+                { cand: "Fajardo", color: "#0f766e", txt: "Uso de medios tecnológicos y inteligencia estratégica para desmantelar estructuras de mando de bandas y rastrear dineros ilícitos en el sistema financiero global.", pag: "Pág. 7" },
+                { cand: "López", color: "#15803d", txt: "Inteligencia técnica volcada a la ciberdefensa del Estado y protección de infraestructura crítica nacional frente a amenazas híbridas nacionales y extranjeras.", pag: "Pág. 18" },
+                { cand: "Cepeda", color: "#b91c1c", txt: "Inteligencia volcada a la prevención del conflicto armado, protección de líderes sociales y prevención de masacres en zonas de conflicto armado nacional.", pag: "Pág. 18" },
+                { cand: "Espriella", color: "#0369a1", txt: "Inteligencia militar ofensiva de última generación para localización y neutralización de blancos GAO de alto valor estratégico en tiempo real y selva profunda.", pag: "Web" },
+                { cand: "Valencia", color: "#1d4ed8", txt: "Inteligencia financiera coordinada entre fuerzas militares y UIAF para el quiebre de finanzas ilegales de minería criminal, narcotráfico y contrabando en fronteras.", pag: "Web" }
+            ]},
+            "extorsion": { titulo: "Extorsión y Secuestro", propuestas: [
+                { cand: "Fajardo", color: "#0f766e", txt: "Duplicación inmediata de grupos Gaula en todo el país. Tecnología para geolocalización de llamadas extorsivas desde centros penitenciarios nacionales.", pag: "Pág. 7" },
+                { cand: "López", color: "#15803d", txt: "Fiscalía Antimafia con aislamiento carcelario absoluto (cero contactos) para cabecillas que ordenan extorsiones y secuestros desde prisión de alta seguridad.", pag: "Pág. 8" },
+                { cand: "Cepeda", color: "#b91c1c", txt: "Fortalecimiento de la investigación criminal de la Fiscalía en territorios para desarticular macrocorrupción ligada al secuestro y la extorsión armada regional.", pag: "Pág. 40" },
+                { cand: "Espriella", color: "#0369a1", txt: "Bloques de búsqueda letales sin restricciones para cazar redes de secuestro. Cárcel intramural efectiva sin beneficios para extorsionistas GAO y delincuencia común.", pag: "Web" },
+                { cand: "Valencia", color: "#1d4ed8", txt: "Fondo masivo de crédito popular para erradicar el 'gota a gota' y fortalecimiento de Gaula Militar en áreas rurales de alta influencia criminal armada.", pag: "Web" }
+            ]},
+            "paz": { titulo: "Conflicto Armado y Paz", propuestas: [
+                { cand: "Fajardo", color: "#0f766e", txt: "Recuperación del control territorial militar y social en zonas históricas de conflicto (Cauca, Catatumbo) mediante presencia efectiva y desarrollo del Estado.", pag: "Pág. 6" },
+                { cand: "López", color: "#15803d", txt: "Cero tolerancia a grupos pos-2016. Sometimiento riguroso a la justicia ordinaria sin otorgar estatus político ni mesas de paz alternativas que generen impunidad.", pag: "Pág. 15" },
+                { cand: "Cepeda", color: "#b91c1c", txt: "Cumplimiento total del Acuerdo de Paz 2016 y diálogos permanentes con el ELN bajo protocolos internacionales de cese al fuego y hostilidades territoriales.", pag: "Pág. 22" },
+                { cand: "Espriella", color: "#0369a1", txt: "Cero diálogos. Neutralización militar directa y ofensiva frontal. Sometimiento absoluto a la ley o abatimiento militar legítimo en cumplimiento del deber institucional.", pag: "Web" },
+                { cand: "Valencia", color: "#1d4ed8", txt: "Cero concesiones políticas a terroristas. Aplicación de justicia penal ordinaria y cumplimiento de penas efectivas en penitenciarías de alta seguridad nacional.", pag: "Web" }
+            ]},
+            "mineria": { titulo: "Minería Criminal e Ilegal", propuestas: [
+                { cand: "Fajardo", color: "#0f766e", txt: "Interdicción militar en ríos y selvas para proteger el agua nacional. Desmantelamiento de maquinaria pesada vinculada a grupos armados organizados criminales.", pag: "Pág. 25" },
+                { cand: "López", color: "#15803d", txt: "Control de rentas ilícitas. Persecución a la cadena de lavado de activos del oro en las grandes comercializadoras nacionales e internacionales mediante inteligencia técnica.", pag: "Pág. 20" },
+                { cand: "Cepeda", color: "#b91c1c", txt: "Protección ambiental severa y reconversión laboral de pequeños mineros informales hacia economías lícitas controladas por el Estado y energías limpias regionales.", pag: "Pág. 45" },
+                { cand: "Espriella", color: "#0369a1", txt: "Bombardeo militar contundente a dragas y maquinaria de minería ilegal. Respaldo total a la gran minería legal, carbón e hidrocarburos nacionales con seguridad.", pag: "Web" },
+                { cand: "Valencia", color: "#1d4ed8", txt: "Tratar la minería criminal como amenaza prioritaria a la seguridad nacional igual al narcotráfico, congelando activos ilícitos mediante la UIAF y inteligencia militar.", pag: "Web" }
+            ]},
+            "presupuesto": { titulo: "Presupuesto Institucional", propuestas: [
+                { cand: "Fajardo", color: "#0f766e", txt: "Eficiencia en gasto militar respetando la regla fiscal estricta. Prioridad presupuestal para sanidad y bienestar de la tropa activa y fuerzas militares en retiro.", pag: "Pág. 13" },
+                { cand: "López", color: "#15803d", txt: "Optimización presupuestal focalizada en ciberdefensa, medios tecnológicos y protección de infraestructura crítica nacional ante ataques armados híbridos.", pag: "Pág. 18" },
+                { cand: "Cepeda", color: "#b91c1c", txt: "Reorientación del gasto militar hacia inversión social directa en territorios PDET y fortalecimiento de la inteligencia para la paz territorial agraria campesina.", pag: "Pág. 30" },
+                { cand: "Espriella", color: "#0369a1", txt: "Aumento drástico del presupuesto de defensa nacional. Reducción del 40% del Estado burocrático para financiar la modernización total de las fuerzas militares.", pag: "Web" },
+                { cand: "Valencia", color: "#1d4ed8", txt: "Menos impuestos y ahorro en gasto público ineficiente para asegurar la sostenibilidad del pie de fuerza nacional y su equipamiento tecnológico militar.", pag: "Web" }
+            ]},
+            "veteranos": { titulo: "Veteranos y Sanidad Militar", propuestas: [
+                { cand: "Fajardo", color: "#0f766e", txt: "Fortalecimiento de la sanidad militar regional y bienestar integral mediante una red de servicios de salud digna para el uniformado y su familia núcleo regional.", pag: "Pág. 13" },
+                { cand: "López", color: "#15803d", txt: "Sistema Nacional de Cuidado que integra a veteranos y dependientes en programas de salud, vivienda y empleo digno post-servicio nacional e institucional.", pag: "Pág. 19" },
+                { cand: "Cepeda", color: "#b91c1c", txt: "Acceso universal a la salud garantizado por el Estado sin intermediación privada de EPS, priorizando atención humanizada en todo el territorio nacional fronterizo.", pag: "Pág. 52" },
+                { cand: "Espriella", color: "#0369a1", txt: "Inyección de capital prioritaria para rescatar el subsistema de salud militar nacional. Atención médica de excelencia para los héroes activos y retirados de la patria.", pag: "Web" },
+                { cand: "Valencia", color: "#1d4ed8", txt: "Respeto absoluto a la asignación de retiro. Sanidad militar eficiente y reincorporación activa a la vida productiva institucional para personal de fuerzas militares.", pag: "Web" }
+            ]},
+            "agro": { titulo: "Agro e Infraestructura", propuestas: [
+                { cand: "Fajardo", color: "#0f766e", txt: "Construcción masiva de vías terciarias como prioridad operativa para sacar productos lícitos del campo y evitar el dominio de economías ilegales por abandono.", pag: "Pág. 28" },
+                { cand: "López", color: "#15803d", txt: "Continuidad en proyectos de infraestructura pesada (Metro, Túnel del Toyo) mediante planeación regional DPR autónoma y generadora de empleo técnico regional.", pag: "Pág. 32" },
+                { cand: "Cepeda", color: "#b91c1c", txt: "Revolución Agraria. Redistribución masiva de tierras productivas al campesinado y compra estatal directa de cosechas a precios justos para el agro nacional lícito.", pag: "Pág. 30" },
+                { cand: "Espriella", color: "#0369a1", txt: "Seguridad jurídica total para la propiedad privada y fomento agresivo a la gran agroindustria exportadora nacional y capital extranjero masivo en campo.", pag: "Web" },
+                { cand: "Valencia", color: "#1d4ed8", txt: "Alianzas productivas campo-empresa: tecnología de punta y mercados globales con tierras campesinas y labor productiva tecnificada protegida por el Estado.", pag: "Web" }
+            ]},
+            "justicia": { titulo: "Justicia y Control Institucional", propuestas: [
+                { cand: "Sergio Fajardo", color: "#0f766e", txt: "Agencia Nacional Anticorrupción con autonomía total. Transparencia en contratación y control estricto de presupuesto público nacional de defensa y social.", pag: "Pág. 14" },
+                { cand: "Claudia López", color: "#15803d", txt: "Justicia restaurativa para delitos menores y celeridad procesal. Fiscalía Antimafia especializada para multicrimen organizado transnacional y narcotráfico.", pag: "Pág. 8" },
+                { cand: "Iván Cepeda", color: "#b91c1c", txt: "Sistema Nacional contra la Macrocorrupción y persecución penal a capitales ocultos de grandes políticos y redes de clientelismo regional y nacional.", pag: "Pág. 40" },
+                { cand: "A. de la Espriella", color: "#0369a1", txt: "Eliminación total de subrogados y beneficios penales. Los condenados por corrupción sufrirán muerte civil y expropiación total de bienes familiares inmediatos.", pag: "Web" },
+                { cand: "Paloma Valencia", color: "#1d4ed8", txt: "Pequeñas cortes de justicia formal para acabar la impunidad local. Cárcel efectiva sin rebajas para criminales comunes y organizados de alta peligrosidad.", pag: "Web" }
+            ]}
+        };
+
+        const grid = document.getElementById('contenedorCaratulas');
+        perfiles.forEach(p => {
+            grid.innerHTML += `<div class="caratula" style="border-top-color: ${p.color};" onclick="abrirDocumento('${p.id}')">
+                <img src="${p.foto}" class="foto-candidato" onerror="this.src='https://ui-avatars.com/api/?name=${p.nombre.replace(/ /g, '+')}&background=cbd5e1&color=333&size=200'">
+                <div class="caratula-title">${p.nombre}</div>
+                <div style="font-size:11px; font-weight:bold; color:${p.color};">${p.tipo === 'pdf' ? '📄 PDF PLAN DE GOBIERNO' : '🌐 PLAN DE GOBIERNO WEB'}</div>
+            </div>`;
+        });
+
+        let perfilActual = null;
+        function abrirDocumento(id) {
+            perfilActual = perfiles.find(x => x.id === id);
+            document.getElementById('modalTitle').innerText = "Doctrina: " + perfilActual.nombre;
+            document.getElementById('modalHeader').style.backgroundColor = perfilActual.color;
+            const body = document.getElementById('modalBody');
+            body.innerHTML = perfilActual.tipo === 'pdf' ? `<iframe id="pdfIframe" src="${perfilActual.archivo}#toolbar=0" style="height:100%; width:100%;"></iframe>` : `<div class="texto-web">${perfilActual.archivo}</div>`;
+            document.getElementById('modalPlan').classList.add('active');
+        }
+
+        function ejecutarBusquedaInterna() {
+            const q = document.getElementById('internalSearchInput').value.trim();
+            if(!q) return;
+            if(perfilActual.tipo === 'pdf') {
+                document.getElementById('modalBody').innerHTML = `<iframe src="${perfilActual.archivo}#search=${encodeURIComponent(q)}" style="height:100%; width:100%;"></iframe>`;
+            } else {
+                const container = document.querySelector('.texto-web');
+                const regex = new RegExp(`(${q})`, 'gi');
+                container.innerHTML = perfilActual.archivo.replace(regex, '<mark style="background:#fef08a; border-bottom:2px solid red;">$1</mark>');
+                const first = container.querySelector('mark');
+                if(first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // MOTOR DE BÚSQUEDA DINÁMICA (CON NORMALIZACIÓN DE ACENTOS Y DUREZA DE DATOS)
+        document.getElementById('inputBusqueda').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            const area = document.getElementById('areaResultadosBusqueda');
+            if(query.length < 3) { area.innerHTML = ''; return; }
+            document.getElementById('areaResultadosBotones').innerHTML = '';
+            
+            const normalizar = (t) => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            const qNorm = normalizar(query);
+            let html = '<div class="tema-card"><div class="grid-comparativo">';
+            perfiles.forEach(cand => {
+                let found = cand.textoOculto.filter(p => normalizar(p.txt).includes(qNorm));
+                if(found.length > 0) {
+                    let txt = found.map(f => `<div style="margin-bottom:12px;">${f.txt.replace(new RegExp(`(${query})`, 'gi'), '<mark>$1</mark>')}</div><div class="pagina-ref">Fuente: ${f.pag}</div>`).join('');
+                    html += `<div class="cand-box"><span class="cand-name-tag" style="background:${cand.color}">${cand.nombre}</span><div class="cand-propuesta">${txt}</div></div>`;
+                } else {
+                    html += `<div class="cand-box" style="opacity:0.6;"><span class="cand-name-tag" style="background:#94a3b8">${cand.nombre}</span><div class="cand-propuesta" style="font-style:italic; text-align:center; padding-top:20px;">Sin líneas de acción directas asociadas a este parámetro institucional bajo indexación profunda.</div></div>`;
+                }
+            });
+            area.innerHTML = html + '</div></div>';
+        });
+
+        function cargarTema(id) {
+            document.getElementById('areaResultadosBusqueda').innerHTML = '';
+            document.getElementById('inputBusqueda').value = '';
+            const data = dataTemas[id];
+            let html = `<div class="tema-card"><div class="tema-titulo">${data.titulo}</div><div class="grid-comparativo">`;
+            data.propuestas.forEach(p => {
+                const cand = perfiles.find(x => x.nombre.includes(candReal(p.cand))) || {color: "#333", nombre: p.cand};
+                html += `<div class="cand-box"><span class="cand-name-tag" style="background:${cand.color}">${cand.nombre}</span><div class="cand-propuesta">${p.txt}</div><div class="pagina-ref">Fuente: ${p.pag}</div></div>`;
+            });
+            document.getElementById('areaResultadosBotones').innerHTML = html + '</div></div>';
+        }
+        function candReal(n){ if(n=='Fajardo') return 'Sergio Fajardo'; if(n=='López') return 'Claudia López'; if(n=='Cepeda') return 'Iván Cepeda'; if(n=='Valencia') return 'Paloma Valencia'; if(n=='Espriella') return 'Abelardo de la Espriella'; return n;}
+    </script>
+</body>
+</html>
