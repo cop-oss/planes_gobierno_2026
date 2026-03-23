@@ -7,9 +7,8 @@
         <style>
 /* Estilo para el Botón de PDF en Móvil */
         .btn-mobile-pdf { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: #f1f5f9; padding: 20px; text-align: center; }
-        .btn-link-pdf { background: #2563eb; color: white; padding: 20px 40px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 18px; box-shadow: 0 10px 20px rgba(37,99,235,0.3); transition: transform 0.2s; }
-        .btn-link-pdf:active { transform: scale(0.95); }            
-        :root {
+        .btn-link-pdf { background: #2563eb !important; color: white !important; padding: 18px 30px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 18px; box-shadow: 0 8px 15px rgba(37,99,235,0.2); display: inline-block; }
+                    :root {
             --bg-color: #f1f5f9;
             --card-bg: #ffffff;
             --text-main: #0f172a;
@@ -433,37 +432,31 @@
 
         let perfilActual = null;
   function abrirDocumento(id) {
-            perfilActual = perfiles.find(x => x.id === id);
-            document.getElementById('modalTitle').innerText = "Análisis Doctrinal: " + perfilActual.nombre;
-            document.getElementById('modalHeader').style.backgroundColor = perfilActual.color;
+            const p = perfiles.find(x => x.id === id);
+            document.getElementById('modalTitle').innerText = "Doctrina: " + p.nombre;
+            document.getElementById('modalHeader').style.backgroundColor = p.color;
             const body = document.getElementById('modalBody');
 
-            if (perfilActual.tipo === 'pdf') {
-                // 1. Construimos la URL absoluta que GitHub le asignó a su archivo
-                // Esto es necesario para que el visor de Google pueda "leer" el PDF
-                const urlBase = window.location.href.split('index.html')[0].split('?')[0];
-                const urlPdfAbsoluta = urlBase + perfilActual.archivo;
-                
-                // 2. Usamos el visor oficial de Google que permite búsqueda interna
-                const visorGoogle = "https://docs.google.com/viewer?url=" + encodeURIComponent(urlPdfAbsoluta) + "&embedded=true";
-
-                // 3. Detectamos si es móvil o tablet
+            if (p.tipo === 'pdf') {
+                // Detecta si es Tablet o Celular
                 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || (window.innerWidth <= 1024);
                 
                 if (isMobile) {
-                    // En Tablet/Celular forzamos que se cargue DENTRO del iframe de Google
-                    // Esto evita que se abra una pestaña nueva
+                    // Muestra el Botón Azul para abrir en pestaña nueva
                     body.innerHTML = `
-                        <div style="width:100%; height:100%; overflow:hidden;">
-                            <iframe src="${visorGoogle}" style="width:100%; height:100%; border:none;" allow="fullscreen"></iframe>
+                        <div class="btn-mobile-pdf">
+                            <div style="font-size:50px; margin-bottom:15px;">📄</div>
+                            <h3 style="color:#1e293b;">Visualización en Tablet</h3>
+                            <p style="color:#64748b; margin-bottom:25px;">Para buscar palabras, use la opción "Buscar en la página" del navegador.</p>
+                            <a href="${p.archivo}" target="_blank" class="btn-link-pdf">ABRIR PDF COMPLETO</a>
                         </div>`;
                 } else {
-                    // En PC dejamos el visor rápido original
-                    body.innerHTML = `<iframe src="${perfilActual.archivo}#toolbar=1" style="width:100%; height:100%;"></iframe>`;
+                    // Visor normal para PC
+                    body.innerHTML = `<iframe src="${p.archivo}#toolbar=0" style="width:100%; height:100%;"></iframe>`;
                 }
             } else {
-                // Mantenemos el formato para los planes de Valencia y Espriella (Web)
-                body.innerHTML = `<div class="texto-web">${perfilActual.archivo}</div>`;
+                // Mantiene los planes web (Valencia/Espriella)
+                body.innerHTML = `<div class="texto-web">${p.archivo}</div>`;
             }
             document.getElementById('modalPlan').classList.add('active');
         }
