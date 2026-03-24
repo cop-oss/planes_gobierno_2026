@@ -6,30 +6,28 @@
     <title>Plataforma de Análisis Estratégico 2026 - Master Edition</title>
         <style>
 /* Estilo para el Botón de PDF en Móvil */
-        .btn-mobile-pdf { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: #f1f5f9; padding: 20px; text-align: center; }
-        .btn-link-pdf { background: #2563eb !important; color: white !important; padding: 18px 30px; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 18px; box-shadow: 0 8px 15px rgba(37,99,235,0.2); display: inline-block; }
-                    :root {
-            --bg-color: #f1f5f9;
-            --card-bg: #ffffff;
-            --text-main: #0f172a;
-            --accent: #1e293b;
-            --highlight: #2563eb;
-            --btn-bg: #e2e8f0;
-            --btn-hover: #cbd5e1;
-            --border-color: #cbd5e1;
+      .grid-caratulas { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Ajuste para celulares pequeños */
+            gap: 15px; 
+            margin: 20px 0; 
         }
-
-        [data-theme="dark"] {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f1f5f9;
-            --accent: #334155;
-            --highlight: #3b82f6;
-            --btn-bg: #334155;
-            --btn-hover: #475569;
-            --border-color: #475569;
+        .caratula { 
+            background: var(--card-bg); 
+            border-radius: 12px; 
+            padding: 15px; 
+            text-align: center; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-top: 5px solid #ccc;
         }
-
+        .foto-candidato { 
+            width: 80px; /* Tamaño optimizado para celular y tablet */
+            height: 80px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            margin-bottom: 8px; 
+            border: 2px solid var(--border-color); 
+        }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: all 0.3s ease; }
 
         .header { background: var(--accent); color: white; padding: 30px 15px; text-align: center; border-bottom: 5px solid var(--highlight); position: relative; }
@@ -431,32 +429,31 @@
         });
 
         let perfilActual = null;
- function abrirDocumento(id) {
+function abrirDocumento(id) {
             const p = perfiles.find(x => x.id === id);
+            if(!p) return; // Seguridad ante errores
+
             document.getElementById('modalTitle').innerText = "Doctrina: " + p.nombre;
             document.getElementById('modalHeader').style.backgroundColor = p.color;
             const body = document.getElementById('modalBody');
 
+            // DETECTOR UNIVERSAL: Detecta tacto, iPhone, Android y Tablets
+            const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.innerWidth <= 1100);
+
             if (p.tipo === 'pdf') {
-                // DETECTOR DE ÉLITE PARA IPAD Y MÓVILES
-                // Detecta si es móvil, si tiene pantalla táctil (iPadOS) o si la pantalla es menor a 1280px
-                const isMobileOrTablet = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || 
-                                         (navigator.maxTouchPoints > 0) || 
-                                         (window.innerWidth <= 1280);
-                
-                if (isMobileOrTablet) {
-                    // Fuerza el Botón Azul para iPads y Tablets
+                if (isTouch) {
+                    // BOTÓN AZUL: El método más seguro para móviles y tablets
                     body.innerHTML = `
                         <div class="btn-mobile-pdf">
                             <div style="font-size:50px; margin-bottom:15px;">📄</div>
-                            <h3 style="color:#1e293b;">Visualización en iPad / Tablet</h3>
-                            <p style="color:#64748b; margin-bottom:25px; padding:0 20px;">
-                                Para garantizar la búsqueda de términos, abra el documento oficial en pantalla completa.
+                            <h3 style="color:#1e293b;">Visualización en Dispositivo Móvil</h3>
+                            <p style="color:#64748b; margin-bottom:25px; padding: 0 15px;">
+                                Para una lectura óptima y uso de lupa de búsqueda, abra el documento oficial.
                             </p>
-                            <a href="${p.archivo}" target="_blank" class="btn-link-pdf" style="background:${p.color}">ABRIR PDF COMPLETO</a>
+                            <a href="${p.archivo}" target="_blank" class="btn-link-pdf" style="background:${p.color}">ABRIR DOCUMENTO</a>
                         </div>`;
                 } else {
-                    // Visor normal solo para computadores de escritorio reales
+                    // VISOR IFRAME: Solo para computadores de escritorio
                     body.innerHTML = <iframe src="${p.archivo}#toolbar=0" style="width:100%; height:100%;"></iframe>;
                 }
             } else {
