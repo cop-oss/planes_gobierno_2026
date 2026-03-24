@@ -432,17 +432,19 @@
 function abrirDocumento(id) {
             const p = perfiles.find(x => x.id === id);
             if(!p) return; // Seguridad ante errores
+            
+            perfilActual = p; // LÍNEA VITAL AGREGADA para que funcione la lupa
 
             document.getElementById('modalTitle').innerText = "Doctrina: " + p.nombre;
             document.getElementById('modalHeader').style.backgroundColor = p.color;
             const body = document.getElementById('modalBody');
 
-            // DETECTOR UNIVERSAL: Detecta tacto, iPhone, Android y Tablets
+            // DETECTOR UNIVERSAL: Detecta tacto, iPhone, iPad, Android y Tablets
             const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.innerWidth <= 1100);
 
             if (p.tipo === 'pdf') {
                 if (isTouch) {
-                    // BOTÓN AZUL: El método más seguro para móviles y tablets
+                    // BOTÓN AZUL: (Aquí estaban las comillas faltantes)
                     body.innerHTML = `
                         <div class="btn-mobile-pdf">
                             <div style="font-size:50px; margin-bottom:15px;">📄</div>
@@ -450,14 +452,15 @@ function abrirDocumento(id) {
                             <p style="color:#64748b; margin-bottom:25px; padding: 0 15px;">
                                 Para una lectura óptima y uso de lupa de búsqueda, abra el documento oficial.
                             </p>
-                            <a href="${p.archivo}" target="_blank" class="btn-link-pdf" style="background:${p.color}">ABRIR DOCUMENTO</a>
+                            <a href="${p.archivo}" target="_blank" class="btn-link-pdf" style="background:${p.color} !important;">ABRIR DOCUMENTO</a>
                         </div>`;
                 } else {
-                    // VISOR IFRAME: Solo para computadores de escritorio
-                    body.innerHTML = <iframe src="${p.archivo}#toolbar=0" style="width:100%; height:100%;"></iframe>;
+                    // VISOR IFRAME PC: (Aquí también faltaban las comillas)
+                    body.innerHTML = `<iframe src="${p.archivo}#toolbar=0" style="width:100%; height:100%;"></iframe>`;
                 }
             } else {
-                body.innerHTML = <div class="texto-web">${p.archivo}</div>;
+                // TEXTO WEB: (Aquí también faltaban las comillas)
+                body.innerHTML = `<div class="texto-web">${p.archivo}</div>`;
             }
             document.getElementById('modalPlan').classList.add('active');
         }
