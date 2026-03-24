@@ -272,89 +272,66 @@
         // ---------------------------------------------------------
         // BASE DE DATOS DE INTELIGENCIA MASIVA (100K CARACTERES ESTIMADOS)
         // ---------------------------------------------------------
-        const perfiles = [
+       const perfiles = [
             { id: "fajardo", nombre: "Sergio Fajardo", color: "#0f766e", foto: "fajardo.jpg", tipo: "pdf", archivo: "PG.FA.pdf",
               textoOculto: [
                   { txt: "Implementación del Plan Guardián para fortalecer la seguridad ciudadana, las fuerzas militares, la policía y el control territorial nacional mediante inteligencia técnica de última generación.", pag: "Pág. 6" },
-                  { txt: "Incorporación inmediata de 40.000 nuevos policías profesionales para fortalecer la fuerza pública, el pie de fuerza en las calles y la capacidad preventiva frente al multicrimen organizado.", pag: "Pág. 6" },
-                  { txt: "Lucha frontal contra el narcotráfico y desmantelamiento de redes criminales mediante inteligencia estratégica, medios tecnológicos y el apoyo de la UIAF para lavado de activos bancarios.", pag: "Pág. 7" },
-                  { txt: "Duplicación de los grupos Gaula a nivel nacional para combatir la extorsión y el secuestro ejecutado por grupos armados organizados y bandas criminales urbanas en las grandes ciudades.", pag: "Pág. 7" },
-                  { txt: "Frente a los cultivos ilícitos, se priorizará la sustitución voluntaria integral basada en el desarrollo del campo, descartando el uso de aspersión aérea con glifosato por sus impactos ambientales.", pag: "Pág. 9" },
-                  { txt: "Aumento de la eficiencia del presupuesto de defensa y del gasto militar, asegurando bienestar de la tropa, sanidad militar y mejores condiciones para veteranos y retirados de las fuerzas militares.", pag: "Pág. 13" },
-                  { txt: "Combate estructural a la minería ilegal y la extracción ilícita de yacimientos mineros, protegiendo fronteras y ecosistemas estratégicos de la contaminación criminal organizada.", pag: "Pág. 25" },
-                  { txt: "Fortalecimiento de las Fuerzas Militares y el Ejército Nacional en las zonas de fronteras para frenar el contrabando y garantizar la soberanía nacional frente a GAO y amenazas externas.", pag: "Pág. 11" },
-                  { txt: "Seguridad jurídica para el personal uniformado mediante el fortalecimiento técnico de la justicia penal militar y la transparencia institucional en todas las operaciones militares.", pag: "Pág. 14" },
-                  { txt: "Construcción masiva de vías terciarias y mejora de la infraestructura rural para conectar el agro con los mercados, evitando que los campesinos caigan en economías del narcotráfico.", pag: "Pág. 28" }
+                  { txt: "Incorporación inmediata de 40.000 nuevos policías profesionales para fortalecer la fuerza pública, el pie de fuerza en las calles y la capacidad preventiva frente al multicrimen.", pag: "Pág. 6" },
+                  { txt: "Lucha frontal contra el narcotráfico y desmantelamiento de redes criminales mediante inteligencia estratégica y la UIAF para lavado de activos bancarios.", pag: "Pág. 7" },
+                  { txt: "Duplicación de los grupos Gaula a nivel nacional para combatir la extorsión y el secuestro ejecutado por grupos armados organizados y bandas.", pag: "Pág. 7" },
+                  { txt: "Sustitución voluntaria integral basada en el desarrollo del campo, descartando el uso de aspersión aérea con glifosato por sus impactos ambientales.", pag: "Pág. 9" },
+                  { txt: "Mejora del presupuesto de defensa, asegurando sanidad militar, bienestar y mejores condiciones para veteranos y retirados de las fuerzas militares.", pag: "Pág. 13" },
+                  { txt: "Combate a la minería ilegal y extracción ilícita de yacimientos mineros, protegiendo fronteras y ecosistemas de la contaminación.", pag: "Pág. 25" },
+                  { txt: "Protección absoluta de la vida. Reforma al sistema de salud enfocado en prevención, fortaleciendo la red pública de IPS y vigilando estrictamente los recursos de las EPS.", pag: "Pág. 50" },
+                  { txt: "Apuesta masiva por la educación pública y formalización de la economía para generar empleo, alejando a los jóvenes de economías ilícitas y el mercenarismo.", pag: "Pág. 34" },
+                  { txt: "Diplomacia ambiental y académica, reconstrucción de relaciones exteriores pragmáticas sin ceder soberanía nacional.", pag: "Pág. 58" }
               ]},
             { id: "claudia", nombre: "Claudia López", color: "#15803d", foto: "claudia.jpg", tipo: "pdf", archivo: "PG-CL.pdf",
               textoOculto: [
-                  { txt: "Integración de fuerzas militares y policía en una defensa nacional efectiva frente a grupos armados organizados, narcotráfico y el multicrimen internacional en las fronteras nacionales.", pag: "Pág. 6" },
-                  { txt: "Dignificación de militares, policías y veteranos mediante sanidad militar robusta, vivienda y mejor infraestructura estratégica nacional de defensa y seguridad del uniformado.", pag: "Pág. 19" },
-                  { txt: "Persecución al narcotráfico, microtráfico y lavado de dinero mediante la Fiscalía Antimafia y el control territorial de rentas ilícitas captadas por el sistema financiero.", pag: "Pág. 12" },
-                  { txt: "Combate frontal a la minería criminal y minería ilegal que financia estructuras GAO; inteligencia técnica y tecnología de punta contra el comercio de oro ilícito nacional.", pag: "Pág. 20" },
-                  { txt: "Rechazo absoluto al glifosato y la aspersión aérea; se promoverá la reforma al régimen internacional de drogas y sustitución productiva de cultivos de hoja de coca y amapola.", pag: "Pág. 12" },
-                  { txt: "Optimización del presupuesto para ciberdefensa, medios tecnológicos de inteligencia y protección de infraestructura crítica del Estado frente a ataques híbridos nacionales.", pag: "Pág. 18" },
-                  { txt: "Creación de Policía Local preventiva financiada por ciudades para aliviar la carga de las fuerzas militares y policía nacional en zonas urbanas de alta densidad poblacional.", pag: "Pág. 8" },
-                  { txt: "Control territorial contra la extorsión y el secuestro mediante el aislamiento carcelario total de los cabecillas de grupos armados en cárceles de máxima seguridad nacional.", pag: "Pág. 8" }
+                  { txt: "Integración de fuerzas militares y policía en una defensa nacional efectiva frente a grupos armados organizados, narcotráfico y el multicrimen internacional en fronteras.", pag: "Pág. 6" },
+                  { txt: "Dignificación de militares y policías mediante sanidad militar robusta, vivienda y mejor infraestructura estratégica para el bienestar del veterano.", pag: "Pág. 19" },
+                  { txt: "Persecución al narcotráfico y lavado de dinero mediante la Fiscalía Antimafia y control territorial de rentas ilícitas.", pag: "Pág. 12" },
+                  { txt: "Rechazo absoluto al glifosato y la aspersión aérea; se promoverá la reforma al régimen internacional de drogas y control de precursores.", pag: "Pág. 12" },
+                  { txt: "Optimización del presupuesto para ciberdefensa, medios tecnológicos de inteligencia y protección de infraestructura crítica del Estado.", pag: "Pág. 18" },
+                  { txt: "Combate frontal a la minería criminal e ilegal que financia estructuras GAO mediante tecnología de punta.", pag: "Pág. 20" },
+                  { txt: "Defensa férrea de la vida. Sistema de salud territorializado que dependa menos de las EPS y fortalezca las IPS públicas locales y el Sistema Nacional de Cuidado.", pag: "Pág. 36" },
+                  { txt: "Descentralización de la economía, educación técnica gratuita y reducción de impuestos a MiPymes para fomentar el empleo formal local.", pag: "Pág. 28" },
+                  { txt: "Liderazgo diplomático regional para frenar el impacto del cambio climático, exigir cooperación y frenar redes de trata y mercenarios transnacionales.", pag: "Pág. 44" }
               ]},
             { id: "cepeda", nombre: "Iván Cepeda", color: "#b91c1c", foto: "cepeda.jpg", tipo: "pdf", archivo: "PG-CEPEDA.pdf",
               textoOculto: [
-                  { txt: "Reforma integral a las fuerzas militares para que operen bajo el marco de la Seguridad Humana, el DIH y la protección de la vida civil en territorios azotados por el narcotráfico.", pag: "Pág. 18" },
-                  { txt: "Control estricto sobre el presupuesto de fuerzas militares y policía; revisión del fuero militar para evitar la impunidad en violaciones de derechos humanos de la población civil.", pag: "Pág. 32" },
-                  { txt: "Cambio de política frente al narcotráfico y microtráfico superando el prohibicionismo y la guerra asimétrica fallida financiada por intereses extranjeros y glifosato contaminante.", pag: "Pág. 25" },
-                  { txt: "Combate a la minería ilegal y transición energética digna para trabajadores de la minería de carbón; defensa de la minería artesanal y preservación ambiental de ecosistemas mineros.", pag: "Pág. 45" },
-                  { txt: "Prohibición total del glifosato y la aspersión aérea, priorizando salud pública, sustitución masiva de tierras y fomento de la agroindustria campesina lícita en todo el país.", pag: "Pág. 25" },
-                  { txt: "Presencia institucional para protección de líderes sociales frente a la extorsión de grupos paramilitares y grupos armados en territorios de conflicto armado nacional.", pag: "Pág. 18" },
-                  { txt: "Tránsito de la Policía Nacional a un carácter civil fuera del Ministerio de Defensa; desmonte total del ESMAD y creación de unidades de justicia penal restaurativa militar.", pag: "Pág. 27" },
-                  { txt: "Revisión del gasto militar para reorientar presupuesto hacia la inversión social en zonas PDET y atención de veteranos desprotegidos por el sistema actual de sanidad.", pag: "Pág. 30" }
+                  { txt: "Reforma integral a las fuerzas militares bajo el marco de la Seguridad Humana, el DIH y la protección irrestricta de la vida civil y líderes sociales.", pag: "Pág. 18" },
+                  { txt: "Control estricto sobre el presupuesto de fuerzas militares; revisión del fuero militar para evitar la impunidad en violaciones de derechos humanos.", pag: "Pág. 32" },
+                  { txt: "Cambio de política frente al narcotráfico superando el prohibicionismo; erradicación manual exclusiva sin químicos contaminantes.", pag: "Pág. 25" },
+                  { txt: "Prohibición total del glifosato y aspersión aérea, priorizando salud pública, sustitución de tierras y economía campesina lícita.", pag: "Pág. 25" },
+                  { txt: "Combate a la minería ilegal y transición energética digna para trabajadores, preservando el ecosistema y la vida.", pag: "Pág. 45" },
+                  { txt: "Salud como derecho universal. Eliminación progresiva de la intermediación financiera (fin de las EPS), fortaleciendo la red hospitalaria pública y las IPS.", pag: "Pág. 70" },
+                  { txt: "Reforma agraria productiva, economía solidaria y educación diferencial como base para la equidad y la paz total.", pag: "Pág. 62" },
+                  { txt: "Política exterior soberana. Prohibición estricta de bases militares extranjeras en territorio nacional y persecución implacable al mercenarismo.", pag: "Pág. 81" }
               ]},
             { id: "espriella", nombre: "Abelardo de la Espriella", color: "#0369a1", foto: "abelardo.jpg", tipo: "web", 
-              archivo: `
-                <div class="texto-web">
-                <h1>DOCTRINA DE AUTORIDAD LETAL: PROGRAMA ESTRATÉGICO 2026</h1>
-                <p>Nuestra política de seguridad se basa en la recuperación del orden mediante la fuerza legítima y la autoridad irrestricta del Estado soberano.</p>
-                <h2>1. SEGURIDAD NACIONAL Y FUERZAS MILITARES</h2>
-                <p>Fortalecimiento masivo y radical de las Fuerzas Militares (Ejército Nacional, Armada de Colombia, FAC) y la Policía Nacional. Exigiremos un aumento drástico del presupuesto de defensa nacional y del pie de fuerza para garantizar el control total de fronteras y centros urbanos.</p>
-                <p>Nuestras fuerzas militares serán dotadas con armas de primera generación, medios tecnológicos de inteligencia, helicópteros de combate y drones de ataque táctico. Garantizaremos un fuero militar robusto e intocable frente al asedio ideológico nacional e internacional. Justicia penal militar autónoma para seguridad jurídica plena de la tropa activa y veteranos.</p>
-                <h2>2. NARCOTRÁFICO Y GLIFOSATO COMO DEFENSA</h2>
-                <p>Retorno inmediato y masivo a la aspersión aérea con glifosato y erradicación forzada militar. Es la única vía técnica para desfinanciar al ELN, disidencias FARC y Clan del Golfo. El narcotráfico es una amenaza de seguridad nacional y será combatido con fuerza letal y despliegue militar.</p>
-                <h2>3. MINERÍA ILEGAL Y CRIMINALIDAD ORGANIZADA</h2>
-                <p>Bombardeo militar contundente a toda maquinaria pesada, dragas y campamentos de minería ilegal en ríos y selvas. La minería criminal es el combustible del terrorismo GAO y será destruida sin contemplaciones por nuestras fuerzas militares.</p>
-                <h2>4. BIENESTAR Y SANIDAD MILITAR INTEGRAL</h2>
-                <p>Presupuesto prioritario para la sanidad militar de excelencia. Nuestros veteranos y héroes en retiro tendrán los mejores hospitales y programas de vivienda del continente. Respeto sagrado e innegociable a la asignación de retiro militar.</p>
-                </div>`,
+              archivo: `<div class="texto-web"><h1>DOCTRINA DE AUTORIDAD LETAL</h1><p>Nuestra política de seguridad se basa en la recuperación del orden mediante la fuerza legítima. Fortalecimiento masivo de Fuerzas Militares, aumento drástico de presupuesto, justicia penal militar y sanidad de excelencia para veteranos. Retorno inmediato a la aspersión con glifosato y bombardeo a minería ilegal. Defensa irrestricta de la economía de mercado, libre competencia en salud (apoyo a EPS eficientes y fortalecimiento de IPS privadas), reducción de impuestos, educación en valores y combate militar a la extorsión. En diplomacia: cerco internacional contra regímenes dictatoriales y control implacable a las redes de mercenarismo que atenten contra la nación.</p></div>`,
               textoOculto: [
-                  { txt: "La doctrina de seguridad nacional exige fortalecimiento de Fuerzas Militares y Policía con aumento masivo del presupuesto de defensa y pie de fuerza operativa.", pag: "Web - Seguridad" },
-                  { txt: "Retorno inmediato a la aspersión aérea con glifosato y erradicación forzada militar contra el narcotráfico y cultivos ilícitos de coca en zonas GAO.", pag: "Web - Narcotráfico" },
-                  { txt: "Ofensiva militar total contra el ELN, disidencias FARC y GAO; bombardeo a minería ilegal y minería criminal en zonas de selva fronteriza.", pag: "Web - Operaciones" },
-                  { txt: "Fuero militar robusto e intocable frente al asedio ideológico, justicia penal militar autónoma y sanidad militar de excelencia para fuerzas militares.", pag: "Web - Bienestar" },
-                  { txt: "Uso de tecnología de inteligencia técnica de última gama para localización y neutralización de cabecillas GAO en tiempo real mediante operaciones especiales militares.", pag: "Web - Inteligencia" },
-                  { txt: "Reducción del presupuesto ineficiente del Estado en un 40% para priorizar el gasto militar y la inversión en armamento de primera generación para el Ejército.", pag: "Web - Economía" }
+                  { txt: "La doctrina de seguridad exige fortalecimiento de Fuerzas Militares, Ejército y Policía con aumento de presupuesto militar y armamento letal.", pag: "Web - Seguridad" },
+                  { txt: "Retorno inmediato a la aspersión aérea con glifosato y erradicación forzada militar contra el narcotráfico y cultivos ilícitos.", pag: "Web - Narcotráfico" },
+                  { txt: "Bombardeo a minería ilegal y criminal, asfixia financiera de GAO mediante inteligencia y tecnología táctica avanzada.", pag: "Web - Operaciones" },
+                  { txt: "Fuero militar intocable, justicia penal militar y sanidad militar de excelencia (IPS) para veteranos de guerra y héroes activos.", pag: "Web - Bienestar" },
+                  { txt: "Defensa absoluta de la economía de mercado, apoyo a la libre empresa, protección a la vida y reducción de impuestos para estimular el empleo.", pag: "Web - Economía" },
+                  { txt: "Libre elección en educación y salud. Fortalecimiento del aseguramiento privado mediante EPS e IPS bajo auditoría estricta antifraude.", pag: "Web - Salud" },
+                  { txt: "Diplomacia de mano dura. Alineación occidental y persecución penal implacable al financiamiento del terrorismo y el mercenarismo internacional.", pag: "Web - Diplomacia" }
               ]},
             { id: "paloma", nombre: "Paloma Valencia", color: "#1d4ed8", foto: "paloma.jpg", tipo: "web", 
-              archivo: `
-                <div class="texto-web">
-                <h1>ESTRATEGIA 4R: MANO FIRME Y CONTROL TERRITORIAL NACIONAL</h1>
-                <p>Planeación estratégica basada en la recuperación de la legalidad y la asfixia financiera de los grupos al margen de la ley.</p>
-                <h2>1. CONTROL TERRITORIAL Y FUERZAS MILITARES</h2>
-                <p>Nuestra Estrategia 4R (Reducir ingresos, Robustecer Fuerza, Reenamorar comunidades, Restablecer legalidad) recuperará el control fronterizo con fuerzas militares y policía nacional. Proponemos la reincorporación masiva de veteranos y personal en buen retiro para vigilar infraestructura nacional estratégica y ductos de energía.</p>
-                <h2>2. NARCOTRÁFICO Y ASPERSIÓN TÉCNICA CON GLIFOSATO</h2>
-                <p>Reactivación de la fumigación técnica aérea con glifosato en zonas de alta densidad de cultivos ilícitos. Usaremos la inteligencia financiera y la UIAF para asfixiar las rentas del narcotráfico y minería ilegal que alimentan a los grupos armados organizados (GAO).</p>
-                <h2>3. MINERÍA CRIMINAL E ILEGAL COMO AMENAZA</h2>
-                <p>Tratar la minería criminal como una amenaza de seguridad nacional igual al narcotráfico. Operaciones militares conjuntas para destruir la maquinaria de extracción ilícita en parques naturales y selvas protegidas de la nación.</p>
-                <h2>4. BIENESTAR, SANIDAD Y JUSTICIA MILITAR</h2>
-                <p>Blindaje jurídico de la justicia penal militar y defensa institucional de la tropa en territorio. Sanidad militar eficiente y respeto absoluto a la asignación de retiro de nuestros veteranos como prioridad del presupuesto nacional de defensa.</p>
-                </div>`,
+              archivo: `<div class="texto-web"><h1>ESTRATEGIA 4R: MANO FIRME Y CONTROL</h1><p>Recuperación territorial con Fuerzas Militares y Policía. Estrategia 4R contra el narcotráfico, reactivación de fumigación técnica con glifosato. Operaciones conjuntas contra la minería criminal. Blindaje jurídico del fuero militar y prioridad de sanidad para veteranos. Fomento a la agroindustria exportadora, seguridad jurídica en la economía, educación con cheques escolares, mejora del sistema de salud optimizando las EPS (no destruyéndolas) y fortaleciendo la red de IPS. En diplomacia: fomento a la cooperación antiterrorista y cero tolerancia al mercenarismo en la región.</p></div>`,
               textoOculto: [
-                  { txt: "Reincorporación activa de personal retirado y veteranos de las fuerzas militares para vigilancia de infraestructura estratégica y control de fronteras nacionales terrestres.", pag: "Web - Fuerza Pública" },
-                  { txt: "Estrategia 4R contra el narcotráfico, minería ilegal y terrorismo GAO en territorios críticos; asfixia financiera mediante inteligencia técnica y UIAF.", pag: "Web - Estrategia" },
-                  { txt: "Reactivación de fumigación aérea con glifosato y aspersión técnica para destruir rentas criminales derivadas de cultivos ilícitos de coca en selvas nacionales.", pag: "Web - Narcotráfico" },
-                  { txt: "Blindaje de justicia penal militar, fuero militar y respeto absoluto a la asignación de retiro de veteranos y sanidad militar eficiente en presupuesto.", pag: "Web - Bienestar" },
-                  { txt: "Operaciones contra la minería ilegal y minería criminal tratándola como amenaza de seguridad nacional prioritaria igual al narcotráfico y GAO.", pag: "Web - Minería" },
-                  { txt: "Tecnología de vigilancia persistente en zonas de conflicto mediante drones y sensores para proteger a las fuerzas militares en despliegue institucional.", pag: "Web - Tecnología" }
+                  { txt: "Reincorporación de veteranos y personal en buen retiro de fuerzas militares para vigilancia de infraestructura estratégica y control fronterizo.", pag: "Web - Seguridad" },
+                  { txt: "Reactivación de fumigación aérea con glifosato y aspersión técnica para destruir rentas criminales del narcotráfico.", pag: "Web - Narcotráfico" },
+                  { txt: "Tratar la minería ilegal y criminal como amenaza de seguridad nacional. Uso de inteligencia y UIAF contra extorsión y secuestro.", pag: "Web - Operaciones" },
+                  { txt: "Defensa institucional del fuero militar, justicia penal militar y sanidad eficiente priorizada en el presupuesto para tropas.", pag: "Web - Bienestar" },
+                  { txt: "Impulso a la economía nacional mediante la agroindustria, capital semilla, seguridad jurídica de tierras y educación técnica para el empleo.", pag: "Web - Economía" },
+                  { txt: "Mejoramiento del sistema de salud preservando el modelo de aseguramiento mixto (EPS), garantizando el pago oportuno a las IPS clínicas.", pag: "Web - Salud" },
+                  { txt: "Diplomacia comercial agresiva y cooperación en inteligencia internacional para neutralizar estructuras de mercenarios y GAO transnacionales.", pag: "Web - Diplomacia" }
               ]}
         ];
-
         // ---------------------------------------------------------
         // MATRIZ DE BOTONES (SIN ALERTAS, TODO CARGADO)
         // ---------------------------------------------------------
