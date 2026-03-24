@@ -438,21 +438,29 @@
             const body = document.getElementById('modalBody');
 
             if (p.tipo === 'pdf') {
-                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || (window.innerWidth <= 1024);
+                // DETECTOR DE ÉLITE PARA IPAD Y MÓVILES
+                // Detecta si es móvil, si tiene pantalla táctil (iPadOS) o si la pantalla es menor a 1280px
+                const isMobileOrTablet = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || 
+                                         (navigator.maxTouchPoints > 0) || 
+                                         (window.innerWidth <= 1280);
                 
-                if (isMobile) {
+                if (isMobileOrTablet) {
+                    // Fuerza el Botón Azul para iPads y Tablets
                     body.innerHTML = `
                         <div class="btn-mobile-pdf">
                             <div style="font-size:50px; margin-bottom:15px;">📄</div>
-                            <h3 style="color:#1e293b;">Visualización en Tablet</h3>
-                            <p style="color:#64748b; margin-bottom:25px;">Documento extenso detectado. Pulse para visualizar.</p>
-                            <a href="${p.archivo}" target="_blank" type="application/pdf" class="btn-link-pdf">VER / BUSCAR EN PDF</a>
+                            <h3 style="color:#1e293b;">Visualización en iPad / Tablet</h3>
+                            <p style="color:#64748b; margin-bottom:25px; padding:0 20px;">
+                                Para garantizar la búsqueda de términos, abra el documento oficial en pantalla completa.
+                            </p>
+                            <a href="${p.archivo}" target="_blank" class="btn-link-pdf" style="background:${p.color}">ABRIR PDF COMPLETO</a>
                         </div>`;
                 } else {
-                    body.innerHTML = `<iframe src="${p.archivo}#toolbar=0" style="width:100%; height:100%;"></iframe>`;
+                    // Visor normal solo para computadores de escritorio reales
+                    body.innerHTML = <iframe src="${p.archivo}#toolbar=0" style="width:100%; height:100%;"></iframe>;
                 }
             } else {
-                body.innerHTML = `<div class="texto-web">${p.archivo}</div>`;
+                body.innerHTML = <div class="texto-web">${p.archivo}</div>;
             }
             document.getElementById('modalPlan').classList.add('active');
         }
