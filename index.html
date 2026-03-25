@@ -143,6 +143,7 @@
             <button class="btn-tema" onclick="cargarTema('economia')">Economía y Empleo</button>
             <button class="btn-tema" onclick="cargarTema('salud')">Salud Integral</button>
             <button class="btn-tema" onclick="cargarTema('diplomacia')">Relaciones Exteriores</button>
+            <button class="btn-tema" onclick="cargarTema('reformas')">Reformas Políticas</button>
         </div>
         <div id="areaResultadosBotones"></div>
 
@@ -481,9 +482,16 @@
                 { cand: "Cepeda", color: "#b91c1c", txt: "Política exterior soberana, integración latinoamericana y promoción global de la paz y los derechos humanos.", pag: "Pág. 81" },
                 { cand: "Espriella", color: "#0369a1", txt: "Alineamiento incondicional con aliados estratégicos occidentales y mano dura contra regímenes dictatoriales de la región. Combate al mercenarismo.", pag: "Web - Diplomacia" },
                 { cand: "Valencia", color: "#1d4ed8", txt: "Defensa férrea de los intereses comerciales de Colombia y cooperación internacional enfocada en seguridad, control de mercenarios y lucha contra el terrorismo transnacional.", pag: "Web - Diplomacia" }
+            ]},
+            "reformas": { titulo: "Reformas Políticas y Constituyente", propuestas: [
+                { cand: "Fajardo", color: "#0f766e", txt: "Reforma política estructural contra el clientelismo y la corrupción regional. Rechazo a convocar una asamblea constituyente.", pag: "Pág. 42" },
+                { cand: "López", color: "#15803d", txt: "Reforma profunda al Congreso y mandato anticorrupción. Cambios institucionales estrictos sin necesidad de recurrir a una constituyente.", pag: "Pág. 35" },
+                { cand: "Cepeda", color: "#b91c1c", txt: "Apertura a procesos constituyentes populares y reforma política progresista para garantizar participación ciudadana directa y consolidar la paz.", pag: "Pág. 88" },
+                { cand: "Espriella", color: "#0369a1", txt: "Reducción drástica del tamaño del Congreso, revocatoria de altas cortes y rechazo absoluto a asambleas constituyentes.", pag: "Web - Reformas" },
+                { cand: "Valencia", color: "#1d4ed8", txt: "Reforma a la justicia con una corte única, reducción burocrática del Congreso y defensa férrea de la Constitución actual.", pag: "Web - Reformas" }
             ]}
         };
-
+             
         const grid = document.getElementById('contenedorCaratulas');
         perfiles.forEach(p => {
             grid.innerHTML += `<div class="caratula" style="border-top-color: ${p.color};" onclick="abrirDocumento('${p.id}')">
